@@ -1,5 +1,5 @@
 from .user import *
-from .internship import Internship
+from .internship import internship
 
 # Read data from the "internship.csv" file
 with open('internship.csv', 'r') as file:
@@ -11,3 +11,4 @@ for line in data:
     values = line.strip().split(',')
     internship = Internship(*values)
     internship.save()
+    
