@@ -9,6 +9,5 @@ with open('internship.csv', 'r') as file:
 for line in data:
     # Assuming each line in the CSV file represents a record with comma-separated values
     values = line.strip().split(',')
-    internship = Internship(*values)
+    internship = internship(*values)
     internship.save()
-    
