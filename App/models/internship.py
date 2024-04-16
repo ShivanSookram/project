@@ -1,7 +1,7 @@
 from App.database import db
 
-class internship(db.Model):
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+class Internship(db.Model):
+    # id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     internship_title = db.Column(db.String, nullable=False)
     company_name = db.Column(db.String, nullable=False) 
     location = db.Column(db.String, nullable=False)

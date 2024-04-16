@@ -1,5 +1,5 @@
 from .user import *
-from .internship import internship
+from .internship import Internship
 import csv
 from App.database import db
 
