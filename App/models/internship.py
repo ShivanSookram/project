@@ -1,7 +1,7 @@
 from App.database import db
 
 class Internship(db.Model):
-    # id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     internship_title = db.Column(db.String, nullable=False)
     company_name = db.Column(db.String, nullable=False) 
     location = db.Column(db.String, nullable=False)
@@ -9,13 +9,14 @@ class Internship(db.Model):
     duration = db.Column(db.String, nullable=False)
     stipend = db.Column(db.String, nullable=False)
 
-    def __init__(self, internship_title, company_name, location, start_date, duration, stipend):
+    def __init__(self,id, internship_title, company_name, location, start_date, duration, stipend):
         self.internship_title = internship_title
         self.company_name = company_name
         self.location = location
         self.start_date = start_date
         self.duration = duration
         self.stipend = stipend
+        self.id = id
 
     def __repr__(self):
         return f"<Internship {self.internship_title} {self.company_name}>"
