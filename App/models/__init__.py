@@ -1,5 +1,7 @@
 from .user import *
 from .internship import internship
+import csv
+from App.database import db
 
 with open('internship.csv', newline='') as csvfile:
     reader = csv.DictReader(csvfile)
@@ -12,4 +14,4 @@ with open('internship.csv', newline='') as csvfile:
         db.session.add(internship)
     db.session.commit()
 
-print('database initialized!')
+print('database initialized!')
