@@ -10,24 +10,9 @@
         <p> Welcome {{current_user.username}} </p>
     {% endif %}
     <!-- <p>This is a boileplate flask application which follows the MVC pattern for structuring the project.</p> -->
-    <div class="card-container">
-        {% for internship in userinternships %}
-      
-              <div class="card">
-                <div class="card-content">
-                  <h3>{{internship.internship_title}}</h3>
-                  <p><span style="font-weight: bold;">Company</span>: {{internship.company_name}}</p>
-                  <p><span style="font-weight: bold;">Location</span>: {{internship.location}}</p>
-                  <p><span style="font-weight: bold;">Start Date</span>: {{internship.start_date}}</p>
-                  <p><span style="font-weight: bold;">Duration</span>: {{internship.duration}}</p>
-                </div>
-                <div class="card-action">
-                  <form action="">
-                  <a class="btn" type="submit" style="width:100%;" href="#">Details</a>
-                  </form>
-                </div>
-              </div>
-      
-        {% endfor %}
-        </div>
+    {% for internship in internships %}
+    <p><span>Company</span>: {{ internship.company_name }}</p>
+    {% else %}
+    <p>No internships found.</p>
+    {% endfor %}
 {% endblock %}
