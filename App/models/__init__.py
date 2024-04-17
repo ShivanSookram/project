@@ -3,17 +3,18 @@ from .internship import Internship
 import csv
 from App.database import db
 
-with open('internship.csv', newline='') as csvfile:
-  reader = csv.DictReader(csvfile)
-  for row in reader:
-    internship = Internship(internship_title=row['internship_title'],
-                             company_name=row['company_name'],
-                             location=row['location'],
-                             start_date=row['start_date'],
-                             duration=row['duration'],
-                             stipend=row['stipend'])
-    
-    db.session.add(internship)
-db.session.commit()
+def initialize_database():  
+  with open('internship.csv', 'r') as file:
+    csv_reader = csv.reader(file)
+    next(csv_reader) 
+    for row in csv_reader:
+      new_internship = Internship(row[0], row[1], row[2], row[3], row[4], row[5])
+      db.session.add(new_internship)
 
-print('database initialized!')
+  try:
+    db.session.commit()
+  except Exception as e:
+    print("An error occurred during commit:", e)
+
+if __name__ == "__main__":
+  initialize_database()
