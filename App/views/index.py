@@ -3,6 +3,8 @@ from App.models import db
 from App.models import Internship
 from App.controllers import create_user
 
+
+
 index_views = Blueprint('index_views', __name__, template_folder='../templates')
 
 @index_views.route('/', methods=['GET'])

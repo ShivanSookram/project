@@ -1,24 +1,23 @@
-from App.database import db
+from flask_wtf.fields import FileField
 
+class Applicant(db.Model):
+  id = db.Column(db.Integer, primary_key=True)
+  first_name = db.Column(db.String, nullable=False)
+  last_name = db.Column(db.String, nullable=False)
+  email = db.Column(db.String, nullable=False)
+  phone = db.Column(db.String, nullable=False)
+  current_field_study = db.Column(db.String, nullable=False)
+  date_of_birth = db.Column(db.String, nullable=False)
+  resume = FileField('Resume')
 
-class applicant(db.model):
-    id = db.Column(db.Integer, primary_key=True)
-    first_name = db.Column(db.String, nullable=False)
-    last_name = db.Column(db.String, nullable=False)
-    email = db.Column(db.String, nullable=False)
-    phone = db.Column(db.String, nullable=False)
-    current_field_study = db.Column(db.String, nullable=False)
-    date_of_birth = db.Column(db.String, nullable=False)
+  def __init__(self, first_name, last_name, email, phone, current_field_study, date_of_birth, resume=None):
+    self.first_name = first_name
+    self.last_name = last_name
+    self.email = email
+    self.phone = phone
+    self.current_field_study = current_field_study
+    self.date_of_birth = date_of_birth
+    self.resume = resume
 
-    def __init__(self, first_name, last_name, email, phone, current_field_study, date_of_birth):
-        self.first_name = first_name
-        self.last_name = last_name
-        self.email = email
-        self.phone = phone
-        self.current_field_study = current_field_study
-        self.date_of_birth = date_of_birth
-
-    def __repr__(self):
-        return f"<Applicant {self.first_name} {self.last_name}>"
-
-    
+  def __repr__(self):
+    return f"<Applicant {self.first_name} {self.last_name}>"

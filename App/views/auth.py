@@ -21,7 +21,7 @@ def get_user_page():
 @auth_views.route('/identify', methods=['GET'])
 @jwt_required()
 def identify_page():
-    return render_template('message.html', title="Identify", message=f"You are logged in as {current_user.id} - {current_user.username}")
+    return render_template('form.html', title="Form", message=f"You are logged in as {current_user.id} - {current_user.username}")
     
 
 @auth_views.route('/login', methods=['POST'])
