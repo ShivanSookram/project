@@ -3,15 +3,15 @@ from App.models import db
 from App.models import Internship
 from App.controllers import create_user
 
-
-
 index_views = Blueprint('index_views', __name__, template_folder='../templates')
 
 @index_views.route('/', methods=['GET'])
 @index_views.route('/home', methods=['GET'])
 def index_page():
-  internships = Internship.query.all()
-  return render_template('index.html', internships=internships)
+  page = request.args.get('page', 1, type=int)
+  internships = Internship.query
+  paged_internship = internships.paginate(page=page, per_page=10)
+  return render_template('index.html', paged_internship=paged_internship, page=page)
 
 
 @index_views.route('/init', methods=['GET'])
