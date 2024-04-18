@@ -7,15 +7,16 @@
 {{ super() }}
 
 {% block content %}
-<div class="container">
+
+<div class="row">
+    <div class="container center">
     <div class="row" style="margin-top: 10%;">
         <div class="col s12 m10 offset-m1">
             <p>Please fill in the following form to apply</p>
             <!-- <p>{{message}}</p> -->
         </div>
     </div>
-</div>
-<div class="row">
+    </div>
     <form class="col s12">
       <div class="input-field col s6">
         <i class="material-icons prefix">account_circle</i>
@@ -58,16 +59,17 @@
         </div>
       </div>
     </form>
+    <div class="input-field col s6">
+      <div class="input-field col s3 right">
+          <form method="POST" enctype="multipart/form-data" action="/submit" class="col s12">
+              <button class="btn waves-effect waves-light" type="submit">Submit
+                <i class="material-icons right">send</i>
+              </button>
+            </form>
+      </div>
+    </div>
   </div>
-  <div class="input-field col s6">
-    <div class="input-field col s3">
-        <form method="POST" enctype="multipart/form-data" action="/submit" class="col s12">
-            <button class="btn waves-effect waves-light" type="submit">Submit
-              <i class="material-icons right">send</i>
-            </button>
-          </form>
-
-  </div>
+  
   
   
   
