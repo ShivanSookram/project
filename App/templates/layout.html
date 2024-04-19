@@ -10,6 +10,16 @@
     <!--Let browser know website is optimized for mobile-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>{% block title %}{% endblock %}</title>
+    <style>
+      .hoverable {
+        transition: box-shadow 0.25s, transform 0.25s;
+      }
+
+      .hoverable:hover {
+        transform: scale(1.05); /* Slightly enlarges the card on hover */
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25); /* Adds depth with a shadow */
+      }
+    </style>
 
   </head>
   <body>

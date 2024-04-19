@@ -8,7 +8,7 @@ index_views = Blueprint('index_views', __name__, template_folder='../templates')
 @index_views.route('/', methods=['GET'])
 @index_views.route('/home', methods=['GET'])
 def index_page():
-  search_query = request.args.get('search')
+  search_query = request.args.get('search_query')
   page = request.args.get('page', 1, type=int)
   if search_query:
     internships = Internship.query.filter(Internship.internship_title.like("%" + search_query + "%") | Internship.company_name.like("%" + search_query + "%"))
