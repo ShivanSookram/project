@@ -25,9 +25,10 @@ def init():
   create_user('bob', 'bobpass')
   return jsonify(message='db initialized!')
 
-@index_views.route('/health', methods=['GET'])
-def health_check():
-  return jsonify({'status':'healthy'})
+@index_views.route('/company', methods=['GET'])
+def company_page():
+  return render_template('company.html', title="Companies submit internships here")
+
 
 
 # @index_views.route('/search', methods=['GET'])

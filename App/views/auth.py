@@ -45,7 +45,7 @@ def admin_page():
     user_data = User.query.filter_by(id=current_user_id).first() #get_user_data(current_user_id)  # Replace with your function
 
     # Render template or return JSON based on authorization
-    if current_user_id == 2:  # Assuming admin ID is 2 (change if needed)
+    if current_user_id == 1:  # Assuming admin ID is 2 (change if needed)
         return render_template('admin.html', user_data=user_data)
     else:
         return jsonify({'message': 'Unauthorized access'}), 403
