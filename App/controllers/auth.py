@@ -7,6 +7,12 @@ def login(username, password):
   if user and user.check_password(password):
     return create_access_token(identity=username)
   return None
+  
+  def get_user_data(user_id):
+    user = User.query.get(user_id)  # Assuming query by ID
+    if user:
+        return {'Current User': user.username}  # Example data
+    return None
 
 
 def setup_jwt(app):
@@ -20,12 +26,14 @@ def setup_jwt(app):
         return user.id
     return None
 
+
   @jwt.user_lookup_loader
   def user_lookup_callback(_jwt_header, jwt_data):
     identity = jwt_data["sub"]
     return User.query.get(identity)
 
   return jwt
+
 
 
 # Context processor to make 'is_authenticated' available to all templates
@@ -42,3 +50,4 @@ def add_auth_context(app):
           is_authenticated = False
           current_user = None
       return dict(is_authenticated=is_authenticated, current_user=current_user)
+

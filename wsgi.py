@@ -17,6 +17,7 @@ migrate = get_migrate(app)
 def initialize():
     db.drop_all()
     db.create_all()
+    create_user('admin', 'adminpass')
     create_user('bob', 'bobpass')
     initialize_internship()
     print('database intialized')
