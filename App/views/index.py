@@ -24,3 +24,20 @@ def init():
 @index_views.route('/health', methods=['GET'])
 def health_check():
     return jsonify({'status':'healthy'})
+
+
+@index_views.route('/search', methods=['GET'])
+def search_internships():
+    search_term = request.args.get('search')
+    if search_term:
+        internships = Internship.query.filter(
+            Internship.internship_title.like(f'%{search_term}%') |
+            Internship.company_name.like(f'%{search_term}%')
+        )
+    else:
+        internships = Internship.query  # Get all internships if no search term
+
+    page = request.args.get('page', 1, type=int)
+    paged_internship = internships.paginate(page=page, per_page=10)
+
+    return render_template('index.html', internships=internships.all(), paged_internship=paged_internship)
