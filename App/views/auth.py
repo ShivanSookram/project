@@ -48,7 +48,7 @@ def admin_page():
     if current_user_id == 1:  # Assuming admin ID is 2 (change if needed)
         return render_template('admin.html', user_data=user_data)
     else:
-        return jsonify({'message': 'Unauthorized access'}), 403
+        return render_template ('401.html')
         
 
 

@@ -1,10 +1,13 @@
+{% extends "layout.html" %}
 
-<html>
-<head>
-  <title>My Simple Webpage</title>
-</head>
-<body>
-  <h1>Welcome!</h1>
-  <p>This is a very basic webpage.</p>
-</body>
-</html>
+
+{% block title %}{{title}}{% endblock %}
+{% block page %}{{title}}{% endblock %}
+
+{{ super() }}
+
+{% block content %}
+
+<p>oopps</p>
+
+{% endblock %}
