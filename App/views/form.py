@@ -9,6 +9,6 @@ form_views = Blueprint('form_views', __name__, template_folder='../templates')
 def create_applicant():
     data = request.form
     flash(f"Applicant {data['first_name']} added!")
-    create_applicant(data['first_name'],data['last_name'],data['telephone'],data['email'],data['current_field_study'],data['first_name'],data['date_of_birth'], data['resume'])
+    create_applicant(data['first_name'],data['last_name'],data['telephone'],data['email'],data['current_field_study'],data['first_name'],data['date_of_birth'], data['resume'], data['id'])  #here
     return redirect('index.html')
 

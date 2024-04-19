@@ -3,6 +3,8 @@ from flask_jwt_extended import jwt_required, current_user, unset_jwt_cookies, se
 
 from.index import index_views
 
+from App.models import db, Internship
+
 from App.controllers import (
     login
 )
@@ -18,10 +20,11 @@ def get_user_page():
     users = get_all_users()
     return render_template('users.html', users=users)
 
-@auth_views.route('/identify', methods=['GET'])
+@auth_views.route('/identify/<id>', methods=['GET'])   #here
 @jwt_required()
-def identify_page():
-    return render_template('form.html', title="Form", message=f"You are logged in as {current_user.id} - {current_user.username}")
+def identify_page(id):
+    internship = Internship.query.filter_by(id = id).first()      #here
+    return render_template('form.html', title="Form",internship = internship, message=f"You are logged in as {current_user.id} - {current_user.username}")
     
 
 @auth_views.route('/login', methods=['POST'])
