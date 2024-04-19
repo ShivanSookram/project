@@ -27,7 +27,7 @@ def init():
 
 @index_views.route('/company', methods=['GET'])
 def company_page():
-  return render_template('company.html', title="Companies submit internships here")
+  return render_template('company.html', title="Companies Application")
 
 
 
