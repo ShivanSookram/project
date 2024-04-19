@@ -30,14 +30,21 @@ def form_page(id):
 @auth_views.route('/admin')
 @jwt_required()
 def admin_page():
-    curr_user = user_identity_lookup() 
-    user_data = {'Current User': current_user}
-    return jsonify(user_data)
+    # Retrieve user ID from JWT
+    current_user_id = user_identity_lookup()
 
-    if curr_user == "1":
-        return render_template('admin.html')
+    # Check if user ID is valid (optional, for extra security)
+    if not current_user_id:
+        return jsonify({'message': 'Unauthorized access'}), 401
+
+    # Retrieve user data (assuming you have a function to fetch by ID)
+    user_data = get_user_data(current_user_id)  # Replace with your function
+
+    # Render template or return JSON based on authorization
+    if current_user_id == 1:  # Assuming admin ID is 1 (change if needed)
+        return render_template('admin.html', user_data=user_data)
     else:
-        return render_template('401.html')
+        return jsonify({'message': 'Unauthorized access'}), 403
         
 
 
