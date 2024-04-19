@@ -4,7 +4,7 @@ from.index import index_views
 from App.controllers import auth
 
 
-from App.models import db, Internship
+from App.models import db, Internship, User
 
 from App.controllers import (
     login
@@ -31,17 +31,19 @@ def form_page(id):
 @jwt_required()
 def admin_page():
     # Retrieve user ID from JWT
-    current_user_id = user_identity_lookup()
+    current_user_id = get_jwt_identity() # user_identity_lookup()
+
+    print("CURRENT USER ID = " + str(current_user_id))
 
     # Check if user ID is valid (optional, for extra security)
     if not current_user_id:
         return jsonify({'message': 'Unauthorized access'}), 401
 
     # Retrieve user data (assuming you have a function to fetch by ID)
-    user_data = get_user_data(current_user_id)  # Replace with your function
+    user_data = User.query.filter_by(id=current_user_id).first() #get_user_data(current_user_id)  # Replace with your function
 
     # Render template or return JSON based on authorization
-    if current_user_id == 1:  # Assuming admin ID is 1 (change if needed)
+    if current_user_id == 2:  # Assuming admin ID is 2 (change if needed)
         return render_template('admin.html', user_data=user_data)
     else:
         return jsonify({'message': 'Unauthorized access'}), 403
