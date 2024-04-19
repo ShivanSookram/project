@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, jsonify, request, flash, send_from_directory, flash, redirect, url_for
 from flask_jwt_extended import jwt_required, current_user, unset_jwt_cookies, set_access_cookies, get_jwt_identity
+
 from.index import index_views
 from App.controllers import auth
 
@@ -26,6 +27,7 @@ def get_user_page():
 def form_page(id):
     internship = Internship.query.filter_by(id = id).first()      #here
     return render_template('form.html', title="Form",internship = internship, message=f"You are logged in as {current_user.id} - {current_user.username}")
+
 
 @auth_views.route('/admin')
 @jwt_required()

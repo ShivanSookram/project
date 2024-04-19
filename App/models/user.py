@@ -31,7 +31,7 @@ class User(db.Model):
 class Admin(User):
   __tablename__ = 'admin'
   staff_id = db.Column(db.String(120), unique=True)
-  __mapper_args__ = {'polymorphic_identity': 'admin', }
+  __mapper_args__ = {'polymorphic_identity': 'Admin', }
 
   def __init__(self, staff_id, username, password):
     super().__init__(username, password)

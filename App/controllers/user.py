@@ -1,4 +1,5 @@
 from App.models import User
+from App.models import Admin
 from App.database import db
 
 def create_user(username, password):
@@ -6,6 +7,13 @@ def create_user(username, password):
     db.session.add(newuser)
     db.session.commit()
     return newuser
+
+def create_admin(staff_id,username,password):
+    newadmin=Admin(staff_id,username,password)
+    db.session.add(newadmin)
+    db.session.commit()
+    return newadmin
+
 
 def get_user_by_username(username):
     return User.query.filter_by(username=username).first()
