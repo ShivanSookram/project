@@ -5,7 +5,7 @@ from App.controllers import create_user
 
 index_views = Blueprint('index_views', __name__, template_folder='../templates')
 
-@index_views.route('/', methods=['GET'])
+# @index_views.route('/', methods=['GET'])
 @index_views.route('/home', methods=['GET'])
 def index_page():
   search_query = request.args.get('search_query')
@@ -28,6 +28,10 @@ def init():
 @index_views.route('/company', methods=['GET'])
 def company_page():
   return render_template('company.html', title="Companies Application")
+
+@index_views.route('/', methods=['GET'])
+def home_page():
+  return render_template('homey.html', title="Home Page")
 
 
 

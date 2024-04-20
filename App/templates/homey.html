@@ -1,0 +1,45 @@
+{% extends "layout.html" %}
+
+{% block title %}{{title}}{% endblock %}
+{% block page %}{{title}}{% endblock %}
+
+{{ super() }}
+{% block content %}
+<style>
+  .hero video {
+  width: 100%; /* Make video cover the entire width of the hero section */
+  height: 500px; /* Adjust height as desired */
+}
+.hero-content {
+  display: flex; /* Make hero content a flex container */
+  justify-content: space-between; /* Align buttons at opposite ends */
+}
+
+.button-container {
+  display: flex; /* Make button container a flex container */
+}
+
+
+
+</style>
+<section class="hero">
+  <div class="hero-content">
+    <h1>Welcome to Internship Platform </h1>
+    <div class="button-container">  <div class="button-list">  <p>Click here to view list of internships</p>
+        <a href="/home" class="btn">List of Internships</a>
+      </div>
+      <div class="button-list">  <p>Click here to add your internship to the list</p>
+        <a href="/company" class="btn">Companies apply here</a>
+      </div>
+    </div>
+  </div>
+  
+  <video autoplay muted loop playsinline style="width: 100%; height: 500px;">
+    <source src="https://www.shutterstock.com/shutterstock/videos/1081513610/preview/stock-footage-two-diverse-business-men-discussing-financial-market-data-using-laptop-and-digital-tablet.webm" type="video/webm">
+  </video>
+</section>
+
+
+
+
+{% endblock %}
