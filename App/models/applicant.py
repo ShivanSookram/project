@@ -11,7 +11,6 @@ class Applicant(db.Model):
   resume = FileField('Resume')
   internship_id = db.Column(db.Integer, db.ForeignKey('internship.id'))
   internship = db.relationship('Internship', backref=db.backref('applicants', lazy=True))
-  
 
   def __init__(self, first_name, last_name, email, phone, current_field_study, date_of_birth, resume=None, id):
     self.first_name = first_name
