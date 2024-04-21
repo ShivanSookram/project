@@ -45,9 +45,13 @@ def add_auth_context(app):
           user_id = get_jwt_identity()
           current_user = User.query.get(user_id)
           is_authenticated = True
+
+          is_admin = True if user_id == 1 else False   #added - only admin is with id 1!
       except Exception as e:
           print(e)
           is_authenticated = False
           current_user = None
-      return dict(is_authenticated=is_authenticated, current_user=current_user)
+
+          is_admin = False   #added - if not authenticated, then not user, and as such not admin
+      return dict(is_authenticated=is_authenticated, current_user=current_user, is_admin=is_admin)
 
