@@ -18,7 +18,7 @@
         </div>
     </div>
     </div>
-    <form method="POST" enctype="multipart/form-data" action="/submit" class="col s12">
+    <form method="POST" action="/submit" class="col s12">
       <input type="hidden" name="internship_id" value="{{internship.id}}">  <!--here -->
       <div class="input-field col s6">
         <i class="material-icons prefix">account_circle</i>
@@ -49,22 +49,15 @@
         <input id="icon_calendar" name="date_of_birth" type="date" class="validate">
         <label for="icon_calendar">Date of Birth</label>
       </div>
-        <div class="input-field col s12">
-            <div class="file-field input-field">
-                <div class="btn">
-                <span>Attach Resume</span>
-                <input name="resume" type="file">
-                </div>
-                <div class="file-path-wrapper">
-                <label>
-                    <input class="file-path validate" type="text">
-                </label>
-                </div>
-            </div>
-        </div>
-        <button class="btn waves-effect waves-light right" name="submit" type="submit">Submit
-            <i class="material-icons right">send</i>
-        </button>
+      <h6 class="center">Please attach a link to your resume in the following field. You may want to consider using: https://tiiny.host/pdf-upload/ </h6>
+      <div class="input-field col s12">
+        <i class="material-icons prefix">link</i>
+        <input id="resume" name="resume" type="text" class="validate">
+        <label for="resume">Please paste link to resume here</label>
+      </div>
+      <button class="btn waves-effect waves-light right" name="submit" type="submit">Submit
+        <i class="material-icons right">send</i>
+      </button>
     </form>
   </div>
 

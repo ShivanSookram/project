@@ -14,7 +14,7 @@ class ApplicationForm(Form):
   email = EmailField('Email', validators=[validators.DataRequired()])
   date_of_birth = DateField('Date of Birth', validators=[validators.DataRequired()])
   current_field_of_study = StringField('Current Field of Study', validators=[validators.DataRequired()])
-  resume = FileField('Resume')
+  resume = StringField('Resume Link', validators=[validators.DataRequired()])
   submit = SubmitField('Submit Application')
   internship_id = HiddenField('Internship ID')
 def sanitize_filename(filename):
@@ -37,39 +37,13 @@ def apply():
       email = form.email.data
       date_of_birth = form.date_of_birth.data
       current_field_of_study = form.current_field_of_study.data
-      resume = request.files['resume']
+      resume = form.resume.data
       internship_id = form.internship_id.data
-      if resume:
-        filename = sanitize_filename(resume.filename)
-        filepath = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)#The file path code is as follows filepath = os.path.join(<Upload-path>, filename)
-        try:
-          resume.save(filepath)
-        except Exception as e:
-          error = f"Error saving resume: {str(e)}"
-          flash(error)
-          return redirect(request.referrer)
-        new_applicant = Applicant(
-          first_name=name,
-          last_name=last_name,
-          email=email,
-          phone=telephone,
-          current_field_study=current_field_of_study,
-          date_of_birth=date_of_birth,
-          resume=filename,
-          int_id=internship_id
-        )#this is to be added to the controller for this class, this is just here for testing atm
+      new_applicant = Applicant(first_name=name,last_name=last_name,email=email,phone=telephone,current_field_study=current_field_of_study,date_of_birth=date_of_birth,resume=resume,int_id=internship_id)#this is to be added to the controller for this class, this is just here for testing atm
+      if new_applicant:
+        flash(f'Application submitted successfully! Name: {name}')
       else:
-        new_applicant = Applicant(
-          first_name=name,
-          last_name=last_name,
-          email=email,
-          phone=telephone,
-          current_field_study=current_field_of_study,
-          date_of_birth=date_of_birth,
-          resume=None,
-          int_id=internship_id
-        )#this is to be added to the controller for this class, this is just here for testing atm
-
+        flash(f'Error in signing up - User already applied! Name: {name}')
       flash(f'Application submitted successfully! Name: {name}')
       return redirect(url_for('index_views.index_page'))
     else:
