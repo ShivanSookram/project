@@ -6,20 +6,20 @@
 
 {% block content %}
 
-    <h1>Internship Listings</h1>
+    <h1  style="color: white;">Internship Listings</h1>
     <div class="search-bar">
         <form action="{{ url_for('index_views.index_page', page=page, search_query=search_query) }}" method="get">
             <input type="text" id="search" name="search_query" placeholder="Search internships...">
-            <button type="submit">Search</button>
+            <button class="btn" type="submit">Search</button>
         </form>
     </div>
-  {% if is_authenticated %}
+  <!-- {% if is_authenticated %}
     <p> Welcome {{current_user.username}} </p>
-  {% endif %}
+  {% endif %} -->
   <div class="card-container">
   {% for internship in paged_internship.items %}
       <form>
-        <div class="card hoverable">
+        <div class="card hoverable" style="border-radius: 10px; box-shadow: 5px 5px;">
           <div class="card-content">
             <h3>{{ internship.internship_title }}</h3>
             <p><span style="font-weight: bold;">Company</span>: {{ internship.company_name }}</p>
@@ -28,7 +28,7 @@
             <p><span style="font-weight: bold;">Duration</span>: {{ internship.duration }}</p>
             <p><span style="font-weight: bold;">Salary</span>: {{ internship.stipend }}</p>
             <div class="card-action">
-              <a class="right" href="/form/{{internship.id}}">Apply Now</a>     <!--here -->
+              <a class="right btn" style="margin-bottom: 0px;" href="/form/{{internship.id}}">Apply Now</a>     <!--here -->
             </div>
           </div>
         </div>
@@ -40,7 +40,7 @@
   <ul class="pagination">
       {% if paged_internship.has_prev %}
           <li class="waves-effect">
-            <a href="{{ url_for('index_views.index_page', page=paged_internship.prev_num, search_query=search_query) }}">
+            <a href="{{ url_for('index_views.index_page', page=paged_internship.prev_num, search_query=search_query) }}"  style="color:white; background-color: #26a69a;">
                 <i class="material-icons">chevron_left</i>
             </a>
           </li>
@@ -59,7 +59,7 @@
                 </li>
             {% else %}
                 <li class="waves-effect">
-                    <a href="{{ url_for('index_views.index_page', page=page_num, search_query=search_query) }}">{{ page_num }}</a>
+                    <a href="{{ url_for('index_views.index_page', page=page_num, search_query=search_query) }}" style="color:white;">{{ page_num }}</a>
                 </li>
             {% endif %}
         {% else %}
@@ -71,7 +71,7 @@
 
     {% if paged_internship.has_next %}
         <li class="waves-effect">
-            <a href="{{ url_for('index_views.index_page', page=paged_internship.next_num, search_query=search_query) }}">
+            <a href="{{ url_for('index_views.index_page', page=paged_internship.next_num, search_query=search_query) }}"  style="color:white;">
                 <i class="material-icons">chevron_right</i>
             </a>
         </li>

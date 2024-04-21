@@ -64,6 +64,7 @@
   </head>
   <body>
     
+    
       <nav class="purple">
           <div class="nav-wrapper" style="background-color: #1A2343;">
               <a href="#!" class="brand-logo center">{% block page %}{% endblock %}</a>
@@ -107,28 +108,34 @@
       </nav>
 
       <!-- sidenavbar testing -->
-      <ul id="slide-out" class="sidenav">
-        <li><div class="user-view">
-          <div class="background">
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS3xCNzaqQ6-1bFQSo0QU7yv46l_6vyXc6uEJkqjUplqA&s">
-          </div>
-          
-          <!-- add back in cow pfp here -->
-          <a href="#!"><span class="black-text name">{{current_user.username}}</span></a>
-        </div></li>
-                  <!-- <form class="right navbar-form" method="GET" action="/signup" style="display: flex; flex-wrap: nowrap; align-items: center; margin-right: 10px;"> -->
-        <li><a href="/home"><i class="material-icons">book</i>List of Internships</a></li>
-        <li><a href="#!">Second Link</a></li>
-        <li><div class="divider"></div></li>
-        <li><a class="subheader">Subheader</a></li>
-        <li><a class="waves-effect" href="#!">Third Link With Waves</a></li>
-      </ul>
-      <a href="#" data-target="slide-out" class="sidenav-trigger enlarged-trigger">
-        <i class="material-icons">menu</i>
-      </a>
-      
-      
-      <!-- here -->
+    <ul id="slide-out" class="sidenav">
+      <li><div class="user-view">
+        <div class="background">
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS3xCNzaqQ6-1bFQSo0QU7yv46l_6vyXc6uEJkqjUplqA&s">
+        </div>
+        
+        <a href="#user"><img class="circle" src="https://i1.sndcdn.com/artworks-000189080723-ez2uad-t500x500.jpg"></a>
+        {% if is_authenticated %}
+          <a href=""><span class="black-text name">{{current_user.username}}</span></a>
+        {% else %}
+          <li><a href="/login"><i class="material-icons">fingerprint</i>Log in</a></li>
+          <li><a href="/signup"><i class="material-icons">group_add</i>Sign Up</a></li>
+        {% endif %}
+    
+      </div></li>
+      <li><div class="divider"></div></li>
+      <li><a class="subheader">Internship Platform</a></li>
+      <li><a href="/home"><i class="material-icons">book</i>List of Internships</a></li>
+      <li><a href="/company"><i class="material-icons">create</i>Companies Apply Here</a></li>
+    </ul>
+    
+    <a href="#" data-target="slide-out" class="sidenav-trigger enlarged-trigger">
+      <i class="medium material-icons">menu</i>
+    </a>
+    
+    
+    
+    <!-- here -->
 
       <style>
           .navbar-form label {
