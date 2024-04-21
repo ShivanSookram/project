@@ -7,6 +7,10 @@ from App.main import create_app
 from App.controllers import ( create_user, get_all_users_json, get_all_users, create_admin )
 from App.controllers import ( initialize_internship )
 
+# print("Most imported. Importing create_applicant...")
+
+# from App.controllers import create_applicant
+
 # This commands file allow you to create convenient CLI commands for testing controllers
 
 app = create_app()
@@ -19,6 +23,7 @@ def initialize():
     db.create_all()
     create_admin('1111','admin','adminpass')
     create_user('bob', 'bobpass')
+    # create_applicant("applicant_first_name","applicant_last_name","123-4567","applicatn@email.com","Computer Science", "01/01/1999", "resume.png", 1)  #test applicant
     initialize_internship()
     print('database intialized')
 

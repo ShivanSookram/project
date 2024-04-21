@@ -5,20 +5,28 @@
 
 {% block content %}
 
-
-  <h1>Welcome!</h1>
-  <p>This is a very basic webpage.</p>
-
+  
   <ul class="collection with-header">
-    <li class="collection-header"><h4>Applicants</h4></li>
-    <li class="collection-item">Applicant 5</li>
-    <li class="collection-item">Applicant 6</li>
-    <li class="collection-item">Applicant 7</li>
-    <li class="collection-item">Applicant 8</li>
+  
+  <li class="collection-header"><h4>Applicants</h4></li>
+  {% for applicant in applicant_data %}
+
+    <li class="collection-item"> <h4 style="font-weight: bold;">{{applicant.first_name}} {{applicant.last_name}}</h4> <button class="btn">Accept</button> <button class="btn" style="background-color:red;">Reject</button></li>
+
+  {% endfor %}
   </ul>
+
 
   <ul class="collection with-header">
     <li class="collection-header"><h4>Project shortlist</h4></li>
+    <li class="collection-item">Applicant 1</li>
+    <li class="collection-item">Applicant 2</li>
+    <li class="collection-item">Applicant 3</li>
+    <li class="collection-item">Applicant 4</li>
+  </ul>
+
+  <ul class="collection with-header">
+    <li class="collection-header"><h4>Rejected list</h4></li>
     <li class="collection-item">Applicant 1</li>
     <li class="collection-item">Applicant 2</li>
     <li class="collection-item">Applicant 3</li>

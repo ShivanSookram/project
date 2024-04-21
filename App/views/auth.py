@@ -6,6 +6,7 @@ from App.controllers import auth
 
 
 from App.models import db, Internship, User
+from App.models.applicant import Applicant
 
 from App.controllers import (
     login
@@ -44,9 +45,32 @@ def admin_page():
     # Retrieve user data (assuming you have a function to fetch by ID)
     user_data = User.query.filter_by(id=current_user_id).first() #get_user_data(current_user_id)  # Replace with your function
 
+    #Retrieve applicant data for rendering in admin.html
+
+    print("ATTEMPT TO QUERY APPLICANT TABLE NOW")
+
+    #Create example applicant
+
+    newapplicant = Applicant("Billy","Ben","123-4567","applicatn@email.com","Computer Science", "01/01/1999", "resume.png", 1)
+    newapplicant1 = Applicant("Bicky","Ben","123-4567","applicatn@email.com","Computer Science", "01/01/1999", "resume.png", 1)
+    newapplicant2 = Applicant("Silly","Ben","123-4567","applicatn@email.com","Computer Science", "01/01/1999", "resume.png", 1)
+    newapplicant3 = Applicant("Stilly","Ben","123-4567","applicatn@email.com","Computer Science", "01/01/1999", "resume.png", 1)
+    newapplicant4 = Applicant("Chili","Ben","123-4567","applicatn@email.com","Computer Science", "01/01/1999", "resume.png", 1)
+
+    db.session.add(newapplicant)
+    db.session.add(newapplicant1)
+    db.session.add(newapplicant2)
+    db.session.add(newapplicant3)
+    db.session.add(newapplicant4)
+    db.session.commit()
+
+    applicant_data = Applicant.query.all()
+    
+    print("ATTEMPT TO QUERY APPLICANT TABLE OVER")
+
     # Render template or return JSON based on authorization
-    if current_user_id == 1:  # Assuming admin ID is 2 (change if needed)
-        return render_template('admin.html', user_data=user_data)
+    if current_user_id == 2:  # Assuming admin ID is 2 (change if needed)
+        return render_template('admin.html', user_data=user_data, applicant_data=applicant_data)
     else:
         return render_template ('401.html')
         
