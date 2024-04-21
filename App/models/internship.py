@@ -9,6 +9,11 @@ class Internship(db.Model):
     duration = db.Column(db.String, nullable=False)  
     stipend = db.Column(db.String, nullable=False)
 
+    # __table_args__ = (
+    #     db.UniqueConstraint('internship_title', 'company_name', 'start_date', name='_title_company_start_uc'),
+    # )  #now a company can have the same internship at different time periods!   CURRENTLY - Constraint breaks the db
+    ##if we remove the sample data later - uncomment this code!
+
     def __init__(self, internship_title, company_name, location, start_date, duration, stipend):
         self.internship_title = internship_title
         self.company_name = company_name
