@@ -106,6 +106,13 @@ def reject_applicant(applicant_id):
 
     return redirect(url_for('auth_views.admin_page'))
 
+#Login page
+
+@auth_views.route('/login', methods=['GET'])
+def login_page():
+    return render_template('login.html')
+
+
 @auth_views.route('/login', methods=['POST'])
 def login_action():
     data = request.form
