@@ -31,13 +31,13 @@ def company_page():
   return render_template('company.html', title="Companies Application")
 
 
-@index_views.route('/company', methods=['POST'])
-def create_project_action():
-    data = request.form
-    flash(f"Project {data['internship_title']} created!")
-    create_project(data['internship_title'], data['company_name'],
-    data['location'] ,data['start_date'], data['duration'], data['stipend'])
-    return redirect(url_for('index_views.company_page'))
+# @index_views.route('/company', methods=['POST'])
+# def create_project_action():
+#     data = request.form
+#     flash(f"Project {data['internship_title']} created!")
+#     create_project(data['internship_title'], data['company_name'],
+#     data['location'] ,data['start_date'], data['duration'], data['stipend'])
+#     return redirect(url_for('index_views.company_page'))
 
 
 
