@@ -1,10 +1,12 @@
-import os
-import re
-
-from flask import render_template, redirect, url_for, request, current_app, Blueprint, flash
+from flask import Flask, render_template, redirect, url_for, request, current_app, Blueprint, flash
 from wtforms import Form, StringField, TelField, EmailField, DateField, FileField, SubmitField, validators, HiddenField
+from sqlalchemy.exc import IntegrityError   #added
+import re, os
 
 from App.controllers.form import create_applicant
+from App.models import db
+from App.models import applicant
+from App.models.applicant import Applicant
 
 form_views = Blueprint('form_views', __name__, template_folder='../templates')
 
@@ -15,7 +17,7 @@ class ApplicationForm(Form):
   email = EmailField('Email', validators=[validators.DataRequired()])
   date_of_birth = DateField('Date of Birth', validators=[validators.DataRequired()])
   current_field_of_study = StringField('Current Field of Study', validators=[validators.DataRequired()])
-  resume = FileField('Resume')
+  resume = StringField('Resume Link', validators=[validators.DataRequired()])
   submit = SubmitField('Submit Application')
   internship_id = HiddenField('Internship ID')
 def sanitize_filename(filename):
@@ -38,40 +40,39 @@ def apply():
       email = form.email.data
       date_of_birth = form.date_of_birth.data
       current_field_of_study = form.current_field_of_study.data
-      resume = request.files['resume']
+      resume = form.resume.data
       internship_id = form.internship_id.data
-      if resume:
-        filename = sanitize_filename(resume.filename)
-        filepath = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)#The file path code is as follows filepath = os.path.join(<Upload-path>, filename)
-        try:
-          resume.save(filepath)
-        except Exception as e:
-          error = f"Error saving resume: {str(e)}"
-          flash(error)
-          return redirect(request.referrer)
-        new_applicant = create_applicant(
-          first_name=name,
-          last_name=last_name,
-          email=email,
-          phone=telephone,
-          current_field_study=current_field_of_study,
-          date_of_birth=date_of_birth,
-          resume=filename,
-          int_id=internship_id
-        )#this is to be added to the controller for this class, this is just here for testing atm
-      else:
-        new_applicant = create_applicant(
-          first_name=name,
-          last_name=last_name,
-          email=email,
-          phone=telephone,
-          current_field_study=current_field_of_study,
-          date_of_birth=date_of_birth,
-          resume=None,
-          int_id=internship_id
-        )#this is to be added to the controller for this class, this is just here for testing atm
+      new_applicant=create_applicant(
 
-      flash(f'Application submitted successfully! Name: {name}')
+        first_name=name,
+
+        last_name=last_name,
+
+        email=email,
+
+        phone=telephone,
+
+        current_field_study=current_field_of_study,
+
+        date_of_birth=date_of_birth,
+
+        resume=resume,
+
+        int_id=internship_id
+      )
+      try:
+        db.session.add(new_applicant)
+        db.session.commit()
+        flash(f'Application submitted successfully! Name: {name}')
+      except IntegrityError:
+        db.session.rollback()
+        flash(f'Error in signing up - User already applied! Name: {name}')
+        # return redirect(request.referrer)
+      # if new_applicant:
+      #   flash(f'Application submitted successfully! Name: {name}')
+      # else:
+      #   flash(f'Error in signing up - User already applied! Name: {name}')
+      # flash(f'Application submitted successfully! Name: {name}')
       return redirect(url_for('index_views.index_page'))
     else:
       flash('Application not filled out. Please correct the following fields:')

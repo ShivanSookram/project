@@ -9,29 +9,83 @@
   <ul class="collection with-header">
   
   <li class="collection-header"><h4>Applicants</h4></li>
-  {% for applicant in applicant_data %}
 
-    <li class="collection-item"> <h4 style="font-weight: bold;">{{applicant.first_name}} {{applicant.last_name}}</h4> <button class="btn">Accept</button> <button class="btn" style="background-color:red;">Reject</button></li>
+    {% for applicant in applicant_data %}
 
-  {% endfor %}
+      <!-- Only display applicants that are not registered and not rejected -->
+
+      {% if applicant.registered == False %}
+
+        {% if applicant.rejected == False %}
+
+          <li class="collection-item"> <h4 style="font-weight: bold;">{{applicant.first_name}} {{applicant.last_name}}</h4><form action="/addapplicant/{{applicant.id}}"><button type="submit" name="accept" class="btn">Accept</button></form><form action="/rejectapplicant/{{applicant.id}}"><button type="submit" name="reject" class="btn" style="background-color:red;">Reject</button></form></li>
+
+        {% endif %}
+
+      {% endif %}
+
+    {% endfor %}
+
+  </ul>
+
+  <!-- For project shortlist, only show registered applicants -->
+
+  <ul class="collection with-header">
+
+    <li class="collection-header"><h4>Project shortlist</h4></li>
+
+    {% for applicant in applicant_data %}
+
+      {% if applicant.registered == True %}
+
+        <!-- Also ensure applicant was not rejected -->
+
+        {% if applicant.rejected == False %}
+
+          <li class="collection-item"> <h4 style="font-weight: bold;">{{applicant.first_name}} {{applicant.last_name}}</h4></li>
+
+        {% endif %}
+
+      {% endif %}
+
+    {% endfor %}
+
   </ul>
 
 
-  <ul class="collection with-header">
+  <!-- <ul class="collection with-header">
     <li class="collection-header"><h4>Project shortlist</h4></li>
     <li class="collection-item">Applicant 1</li>
     <li class="collection-item">Applicant 2</li>
     <li class="collection-item">Applicant 3</li>
     <li class="collection-item">Applicant 4</li>
-  </ul>
+  </ul> -->
+
+  <!-- For rejected list, only show rejected applicants -->
 
   <ul class="collection with-header">
+
+    <li class="collection-header"><h4>Rejected list</h4></li>
+
+    {% for applicant in applicant_data %}
+
+      {% if applicant.rejected == True %}
+
+        <li class="collection-item"> <h4 style="font-weight: bold;">{{applicant.first_name}} {{applicant.last_name}}</h4></li>
+
+      {% endif %}
+
+    {% endfor %}
+
+  </ul>
+
+  <!-- <ul class="collection with-header">
     <li class="collection-header"><h4>Rejected list</h4></li>
     <li class="collection-item">Applicant 1</li>
     <li class="collection-item">Applicant 2</li>
     <li class="collection-item">Applicant 3</li>
     <li class="collection-item">Applicant 4</li>
-  </ul>
+  </ul> -->
 
 {% endblock %}
 

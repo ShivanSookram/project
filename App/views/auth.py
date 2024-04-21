@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, jsonify, request, flash, send_from_directory, flash, redirect, url_for
-from flask_jwt_extended import jwt_required, current_user, unset_jwt_cookies, set_access_cookies, get_jwt_identity
+from flask_jwt_extended import jwt_required, current_user, unset_jwt_cookies, set_access_cookies, get_jwt_identity, create_access_token
 
 from.index import index_views
 from App.controllers import auth
@@ -47,36 +47,74 @@ def admin_page():
 
     #Retrieve applicant data for rendering in admin.html
 
-    print("ATTEMPT TO QUERY APPLICANT TABLE NOW")
-
     #Create example applicant
 
-    newapplicant = Applicant("Billy","Ben","123-4567","applicatn@email.com","Computer Science", "01/01/1999", "resume.png", 1)
-    newapplicant1 = Applicant("Bicky","Ben","123-4567","applicatn@email.com","Computer Science", "01/01/1999", "resume.png", 1)
-    newapplicant2 = Applicant("Silly","Ben","123-4567","applicatn@email.com","Computer Science", "01/01/1999", "resume.png", 1)
-    newapplicant3 = Applicant("Stilly","Ben","123-4567","applicatn@email.com","Computer Science", "01/01/1999", "resume.png", 1)
-    newapplicant4 = Applicant("Chili","Ben","123-4567","applicatn@email.com","Computer Science", "01/01/1999", "resume.png", 1)
+    # newapplicant = Applicant("Billy","Ben","123-4567","applicatn@email.com","Computer Science", "01/01/1999", "resume.png", 1)
+    # newapplicant1 = Applicant("Bicky","Ben","123-4567","applicatn@email.com","Computer Science", "01/01/1999", "resume.png", 1)
+    # newapplicant2 = Applicant("Silly","Ben","123-4567","applicatn@email.com","Computer Science", "01/01/1999", "resume.png", 1)
+    # newapplicant3 = Applicant("Stilly","Ben","123-4567","applicatn@email.com","Computer Science", "01/01/1999", "resume.png", 1)
+    # newapplicant4 = Applicant("Chili","Ben","123-4567","applicatn@email.com","Computer Science", "01/01/1999", "resume.png", 1)
 
-    db.session.add(newapplicant)
-    db.session.add(newapplicant1)
-    db.session.add(newapplicant2)
-    db.session.add(newapplicant3)
-    db.session.add(newapplicant4)
-    db.session.commit()
+    # db.session.add(newapplicant)
+    # db.session.add(newapplicant1)
+    # db.session.add(newapplicant2)
+    # db.session.add(newapplicant3)
+    # db.session.add(newapplicant4)
+    # db.session.commit()
 
     applicant_data = Applicant.query.all()
-    
-    print("ATTEMPT TO QUERY APPLICANT TABLE OVER")
 
     # Render template or return JSON based on authorization
-    if current_user_id == 2:  # Assuming admin ID is 2 (change if needed)
+    if current_user_id == 1 or current_user_id == 2:  # Assuming admin ID is 1 (change if needed)
         return render_template('admin.html', user_data=user_data, applicant_data=applicant_data)
     else:
         return render_template ('401.html')
         
+@auth_views.route('/addapplicant/<applicant_id>', methods=['GET'])
+def add_applicant(applicant_id):
 
+    print("APPLICANT ID: " + applicant_id)
+    #Retrieve applicant data
 
+    applicant = Applicant.query.filter_by(id=applicant_id).first()
+
+    #Change applicants registered status to true
+
+    applicant.registered = True
+    db.session.add(applicant)
+    db.session.commit()
+
+    print("APPLICANT REGISTERED STATUS: " + str(applicant.registered))
+
+    return redirect(url_for('auth_views.admin_page'))
     
+@auth_views.route('/rejectapplicant/<applicant_id>', methods=['GET'])
+def reject_applicant(applicant_id):
+
+    print("APPLICANT ID: " + applicant_id)
+    #Retrieve applicant data
+
+    applicant = Applicant.query.filter_by(id=applicant_id).first()
+
+    #Change applicants registered status to true
+
+    applicant.rejected = True
+    db.session.add(applicant)
+    db.session.commit()
+
+    print("APPLICANT REJECTED STATUS: " + str(applicant.rejected))
+
+    return redirect(url_for('auth_views.admin_page'))
+
+#Login And sign up pages
+
+@auth_views.route('/login', methods=['GET'])
+def login_page():
+    return render_template('login.html')
+
+@auth_views.route('/signup', methods=['GET'])
+def signup_page():
+    return render_template('signup.html')
 
 @auth_views.route('/login', methods=['POST'])
 def login_action():
@@ -87,8 +125,32 @@ def login_action():
         flash('Bad username or password given'), 401
     else:
         flash('Login Successful')
+        response = redirect(url_for('index_views.home_page')) #set response to redirect to home page if successful
         set_access_cookies(response, token) 
     return response
+
+#signup route
+
+@auth_views.route('/signup', methods=['POST'])
+def signup_action():
+
+  data = request.form
+
+  newuser = User(username=data['username'], password=data['password'])  # create user object
+  response = None
+  try:
+    #attempt to add user
+    db.session.add(newuser)
+    db.session.commit()  # save user
+    token = create_access_token(identity=newuser.username)
+    response = redirect(url_for('index_views.home_page'))
+    set_access_cookies(response, token)
+    flash('Account Created!')  # send message
+  except Exception:  # attempted to insert a duplicate user
+    db.session.rollback()
+    flash("Username already exists")  # error message
+    response = redirect(url_for('auth_views.signup_page'))
+  return response
 
 @auth_views.route('/logout', methods=['GET'])
 def logout_action():

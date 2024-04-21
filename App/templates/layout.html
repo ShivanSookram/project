@@ -63,16 +63,23 @@
                 <li><a href="/logout">Logout</a></li>
               </ul>
               {% else %}
-              <form class="right navbar-form" method="POST" action="/login" style="display: flex; flex-wrap: nowrap; align-items: center; margin-right: 10px;">
-                  <div class="input-field" style="margin-right: 10px;">
+                  <form class="right navbar-form" method="GET" action="/login" style="display: flex; flex-wrap: nowrap; align-items: center; margin-right: 10px;">
+         <!--     <div class="input-field" style="margin-right: 10px;">
                       <input placeholder="username" value="bob" name="username" type="text" class="validate" required>
                       <label for="username">username</label>
                   </div>
                   <div class="input-field" style="margin-right: 10px;">
                       <input placeholder="password"value="bobpass" name="password" type="password" class="validate" required>
                       <label for="password">Password</label>
-                  </div>
-                  <button type="submit" class="btn waves-effect waves-light">Login</button>
+                  </div> -->
+                  <div style="margin:15px">
+                    <button type="submit" class="btn waves-effect waves-light" href="/login" method="GET">Login</button>
+                  </div></form>
+                  <form class="right navbar-form" method="GET" action="/signup" style="display: flex; flex-wrap: nowrap; align-items: center; margin-right: 10px;">
+                  <div>
+                    <button type="submit" class="btn waves-effect waves-light" id = "signup" href="/signup" method="GET">Sign Up</button>
+                  </div></form>
+                  
               </form>
               {% endif %}
               
