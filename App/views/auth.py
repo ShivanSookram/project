@@ -51,18 +51,18 @@ def admin_page():
 
     #Create example applicant
 
-    newapplicant = Applicant("Billy","Ben","123-4567","applicatn@email.com","Computer Science", "01/01/1999", "resume.png", 1)
-    newapplicant1 = Applicant("Bicky","Ben","123-4567","applicatn@email.com","Computer Science", "01/01/1999", "resume.png", 1)
-    newapplicant2 = Applicant("Silly","Ben","123-4567","applicatn@email.com","Computer Science", "01/01/1999", "resume.png", 1)
-    newapplicant3 = Applicant("Stilly","Ben","123-4567","applicatn@email.com","Computer Science", "01/01/1999", "resume.png", 1)
-    newapplicant4 = Applicant("Chili","Ben","123-4567","applicatn@email.com","Computer Science", "01/01/1999", "resume.png", 1)
+    # newapplicant = Applicant("Billy","Ben","123-4567","applicatn@email.com","Computer Science", "01/01/1999", "resume.png", 1)
+    # newapplicant1 = Applicant("Bicky","Ben","123-4567","applicatn@email.com","Computer Science", "01/01/1999", "resume.png", 1)
+    # newapplicant2 = Applicant("Silly","Ben","123-4567","applicatn@email.com","Computer Science", "01/01/1999", "resume.png", 1)
+    # newapplicant3 = Applicant("Stilly","Ben","123-4567","applicatn@email.com","Computer Science", "01/01/1999", "resume.png", 1)
+    # newapplicant4 = Applicant("Chili","Ben","123-4567","applicatn@email.com","Computer Science", "01/01/1999", "resume.png", 1)
 
-    db.session.add(newapplicant)
-    db.session.add(newapplicant1)
-    db.session.add(newapplicant2)
-    db.session.add(newapplicant3)
-    db.session.add(newapplicant4)
-    db.session.commit()
+    # db.session.add(newapplicant)
+    # db.session.add(newapplicant1)
+    # db.session.add(newapplicant2)
+    # db.session.add(newapplicant3)
+    # db.session.add(newapplicant4)
+    # db.session.commit()
 
     applicant_data = Applicant.query.all()
     
