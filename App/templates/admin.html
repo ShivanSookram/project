@@ -23,17 +23,18 @@
             <ul class="collection" style="padding-bottom: 100px;">
 
               <li class="collection-item avatar">
-                <img src="https://static.vecteezy.com/system/resources/thumbnails/020/765/399/small_2x/default-profile-account-unknown-icon-black-silhouette-free-vector.jpg" class="circle">
-                <span class="title">{{applicant.first_name}} {{applicant.last_name}}</span>
+                <img src="https://static.vecteezy.com/system/resources/thumbnails/020/765/399/small_2x/default-profile-account-unknown-icon-black-silhouette-free-vector.jpg" class="circle" style="margin-top: 80px;">
+                <br><br><br>
+                <span style="margin-top: 100px;">{{applicant.first_name}} {{applicant.last_name}}</span>
                 <p>{{applicant.email}} <br>
                    {{applicant.phone}}
                 </p>
 
                 <ul class="secondary-content">
-
-                <li style="padding: 10px;"><a class="btn" onclick="{{applicant.resume}}">View Resume</a></li>
-                <li style="padding: 10px;"><form action="/addapplicant/{{applicant.id}}"><button type="submit" name="accept" class="btn">Accept</button></form></li>
-                <li style="padding: 10px;"><form action="/rejectapplicant/{{applicant.id}}"><button type="submit" name="reject" class="btn" style="background-color:red;">Reject</button></form></li>
+                <br><br>
+                <li style="padding: 5px;"><div><a class="btn" href="{{applicant.resume}}">View Resume</a></div></li>
+                <li style="padding: 5px; padding-left:30px;"><form action="/addapplicant/{{applicant.id}}"><button type="submit" name="accept" class="btn">Accept</button></form></li>
+                <li style="padding: 5px; padding-left:32px;"><form action="/rejectapplicant/{{applicant.id}}"><button type="submit" name="reject" class="btn" style="background-color:red;">Reject</button></form></li>
                 </ul>
               </li>
 
