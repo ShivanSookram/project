@@ -1,5 +1,6 @@
 from flask import Flask, render_template, redirect, url_for, request, current_app, Blueprint, flash
 from wtforms import Form, StringField, TelField, EmailField, DateField, FileField, SubmitField, validators, HiddenField
+from sqlalchemy.exc import IntegrityError   #added
 import re, os
 from App.models import db
 from App.models import applicant
@@ -40,11 +41,19 @@ def apply():
       resume = form.resume.data
       internship_id = form.internship_id.data
       new_applicant = Applicant(first_name=name,last_name=last_name,email=email,phone=telephone,current_field_study=current_field_of_study,date_of_birth=date_of_birth,resume=resume,int_id=internship_id)#this is to be added to the controller for this class, this is just here for testing atm
-      if new_applicant:
+      try:
+        db.session.add(new_applicant)
+        db.session.commit()
         flash(f'Application submitted successfully! Name: {name}')
-      else:
+      except IntegrityError:
+        db.session.rollback()
         flash(f'Error in signing up - User already applied! Name: {name}')
-      flash(f'Application submitted successfully! Name: {name}')
+        # return redirect(request.referrer)
+      # if new_applicant:
+      #   flash(f'Application submitted successfully! Name: {name}')
+      # else:
+      #   flash(f'Error in signing up - User already applied! Name: {name}')
+      # flash(f'Application submitted successfully! Name: {name}')
       return redirect(url_for('index_views.index_page'))
     else:
       flash('Application not filled out. Please correct the following fields:')

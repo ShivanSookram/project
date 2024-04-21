@@ -14,6 +14,12 @@ class Applicant(db.Model):
   internship_id = db.Column(db.Integer, db.ForeignKey('internship.id'))
   internship = db.relationship('Internship', backref=db.backref('applicants', lazy=True))
 
+  __table_args__ = (
+    db.UniqueConstraint('email', 'internship_id', name='_email_internship_uc'),
+  )      #unique constraint (_email_internship_uc) ensures that an applicant with the same email (emails are unique) and 
+  #internship id cannot exist (ie a reapplication)! UPDATE - added phone too just in case (phone no unique also)
+  #Further Update - REMOVED: adding phone illogical as applicants usually have 2+ phones and that combination would pass
+
   def __init__(self, first_name, last_name, email, phone, current_field_study, date_of_birth, int_id, resume):
     self.first_name = first_name
     self.last_name = last_name
