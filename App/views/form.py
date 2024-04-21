@@ -60,19 +60,10 @@ def apply():
 
         int_id=internship_id
       )
-      try:
-        db.session.add(new_applicant)
-        db.session.commit()
+      if new_applicant:
         flash(f'Application submitted successfully! Name: {name}')
-      except IntegrityError:
-        db.session.rollback()
+      else:
         flash(f'Error in signing up - User already applied! Name: {name}')
-        # return redirect(request.referrer)
-      # if new_applicant:
-      #   flash(f'Application submitted successfully! Name: {name}')
-      # else:
-      #   flash(f'Error in signing up - User already applied! Name: {name}')
-      # flash(f'Application submitted successfully! Name: {name}')
       return redirect(url_for('index_views.index_page'))
     else:
       flash('Application not filled out. Please correct the following fields:')
