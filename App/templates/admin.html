@@ -18,7 +18,32 @@
 
         {% if applicant.rejected == False %}
 
-          <li class="collection-item"> <h4 style="font-weight: bold;">{{applicant.first_name}} {{applicant.last_name}}</h4><form action="/addapplicant/{{applicant.id}}"><button type="submit" name="accept" class="btn">Accept</button></form><form action="/rejectapplicant/{{applicant.id}}"><button type="submit" name="reject" class="btn" style="background-color:red;">Reject</button></form></li>
+          <li class="collection-item"> 
+
+            <ul class="collection" style="padding-bottom: 100px;">
+
+              <li class="collection-item avatar">
+                <img src="https://static.vecteezy.com/system/resources/thumbnails/020/765/399/small_2x/default-profile-account-unknown-icon-black-silhouette-free-vector.jpg" class="circle">
+                <span class="title">{{applicant.first_name}} {{applicant.last_name}}</span>
+                <p>{{applicant.email}} <br>
+                   {{applicant.phone}}
+                </p>
+
+                <ul class="secondary-content">
+
+                <li style="padding: 10px;"><a class="btn" onclick="{{applicant.resume}}">View Resume</a></li>
+                <li style="padding: 10px;"><form action="/addapplicant/{{applicant.id}}"><button type="submit" name="accept" class="btn">Accept</button></form></li>
+                <li style="padding: 10px;"><form action="/rejectapplicant/{{applicant.id}}"><button type="submit" name="reject" class="btn" style="background-color:red;">Reject</button></form></li>
+                </ul>
+              </li>
+
+            <!-- <li class="collection-item"><button class="btn" href="{{applicant.resume}}">View Resume</button></li>
+            <li class="collection-item"><form action="/addapplicant/{{applicant.id}}"><button type="submit" name="accept" class="btn">Accept</button></form></li>
+            <li class="collection-item"><form action="/rejectapplicant/{{applicant.id}}"><button type="submit" name="reject" class="btn" style="background-color:red;">Reject</button></form></li> -->
+          
+            </ul>
+
+          </li>
 
         {% endif %}
 
@@ -42,7 +67,23 @@
 
         {% if applicant.rejected == False %}
 
-          <li class="collection-item"> <h4 style="font-weight: bold;">{{applicant.first_name}} {{applicant.last_name}}</h4></li>
+        <ul class="collection" style="padding-bottom: 10px;">
+
+          <li class="collection-item avatar">
+            <img src="https://static.vecteezy.com/system/resources/thumbnails/020/765/399/small_2x/default-profile-account-unknown-icon-black-silhouette-free-vector.jpg" class="circle">
+            <span class="title">{{applicant.first_name}} {{applicant.last_name}}</span>
+            <p>{{applicant.email}} <br>
+               {{applicant.phone}}
+            </p>
+
+            <ul class="secondary-content">
+
+            <p>{{applicant.internship.internship_title}}</p>
+            </ul>
+          </li>
+
+        
+        </ul>
 
         {% endif %}
 
@@ -71,7 +112,18 @@
 
       {% if applicant.rejected == True %}
 
-        <li class="collection-item"> <h4 style="font-weight: bold;">{{applicant.first_name}} {{applicant.last_name}}</h4></li>
+      <ul class="collection" style="padding-bottom: 10px;">
+
+        <li class="collection-item avatar">
+          <img src="https://static.vecteezy.com/system/resources/thumbnails/020/765/399/small_2x/default-profile-account-unknown-icon-black-silhouette-free-vector.jpg" class="circle">
+          <span class="title">{{applicant.first_name}} {{applicant.last_name}}</span>
+          <p>{{applicant.email}} <br>
+             {{applicant.phone}}
+          </p>
+
+        </li>
+
+      </ul>
 
       {% endif %}
 
