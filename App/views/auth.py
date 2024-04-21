@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, jsonify, request, flash, send_from_directory, flash, redirect, url_for
-from flask_jwt_extended import jwt_required, current_user, unset_jwt_cookies, set_access_cookies, get_jwt_identity
+from flask_jwt_extended import jwt_required, current_user, unset_jwt_cookies, set_access_cookies, get_jwt_identity, create_access_token
 
 from.index import index_views
 from App.controllers import auth
@@ -106,12 +106,15 @@ def reject_applicant(applicant_id):
 
     return redirect(url_for('auth_views.admin_page'))
 
-#Login page
+#Login And sign up pages
 
 @auth_views.route('/login', methods=['GET'])
 def login_page():
     return render_template('login.html')
 
+@auth_views.route('/signup', methods=['GET'])
+def signup_page():
+    return render_template('signup.html')
 
 @auth_views.route('/login', methods=['POST'])
 def login_action():
@@ -122,8 +125,32 @@ def login_action():
         flash('Bad username or password given'), 401
     else:
         flash('Login Successful')
+        response = redirect(url_for('index_views.home_page')) #set response to redirect to home page if successful
         set_access_cookies(response, token) 
     return response
+
+#signup route
+
+@auth_views.route('/signup', methods=['POST'])
+def signup_action():
+
+  data = request.form
+
+  newuser = User(username=data['username'], password=data['password'])  # create user object
+  response = None
+  try:
+    #attempt to add user
+    db.session.add(newuser)
+    db.session.commit()  # save user
+    token = create_access_token(identity=newuser.username)
+    response = redirect(url_for('index_views.home_page'))
+    set_access_cookies(response, token)
+    flash('Account Created!')  # send message
+  except Exception:  # attempted to insert a duplicate user
+    db.session.rollback()
+    flash("Username already exists")  # error message
+    response = redirect(url_for('auth_views.signup_page'))
+  return response
 
 @auth_views.route('/logout', methods=['GET'])
 def logout_action():
