@@ -24,6 +24,7 @@ def create_user_action():
     create_user(data['username'], data['password'])
     return redirect(url_for('user_views.get_user_page'))
 
+
 @user_views.route('/api/users', methods=['GET'])
 def get_users_action():
     users = get_all_users_json()

@@ -19,3 +19,12 @@ def initialize_internship():
 
 if __name__ == "__main__":
   initialize_database()
+
+
+def create_project(internship_title,company_name,location,start_date,duration,stiped):
+  newproject=Internship(internship_title=internship_title,company_name=company_name,location=location,start_date=start_date,duration=duration,stipend=stiped)
+  db.session.add(newproject)
+  db.session.commit()
+  return newproject
+
+

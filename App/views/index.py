@@ -1,7 +1,8 @@
-from flask import Blueprint, redirect, render_template, request, send_from_directory, jsonify
+from flask import Blueprint, redirect, render_template, request, send_from_directory, jsonify, flash
 from App.models import db
 from App.models import Internship
 from App.controllers import create_user
+from App.controllers import create_project
 
 index_views = Blueprint('index_views', __name__, template_folder='../templates')
 
@@ -28,6 +29,17 @@ def init():
 @index_views.route('/company', methods=['GET'])
 def company_page():
   return render_template('company.html', title="Companies Application")
+
+
+@index_views.route('/company', methods=['POST'])
+def create_project_action():
+    data = request.form
+    flash(f"Project {data['internship_title']} created!")
+    create_project(data['internship_title'], data['company_name'],
+    data['location'] ,data['start_date'], data['duration'], data['stipend'])
+    return redirect(url_for('index_views.company_page'))
+
+
 
 @index_views.route('/', methods=['GET'])
 def home_page():
