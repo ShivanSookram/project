@@ -11,6 +11,8 @@ class Applicant(db.Model):
   current_field_study = db.Column(db.String, nullable=False)
   date_of_birth = db.Column(db.String, nullable=False)                
   resume = db.Column(db.String, nullable = False)                                     #changed resume to a string - url
+  registered = db.Column(db.Boolean, default=False, nullable=False)                   #added registered attribute to differentiate registered apps from non registered apps
+  rejected = db.Column(db.Boolean, default=False, nullable=True)                      #added rejected attribute for placing user in rejected list
   internship_id = db.Column(db.Integer, db.ForeignKey('internship.id'))
   internship = db.relationship('Internship', backref=db.backref('applicants', lazy=True))
 

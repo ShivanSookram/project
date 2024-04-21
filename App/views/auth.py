@@ -47,8 +47,6 @@ def admin_page():
 
     #Retrieve applicant data for rendering in admin.html
 
-    print("ATTEMPT TO QUERY APPLICANT TABLE NOW")
-
     #Create example applicant
 
     # newapplicant = Applicant("Billy","Ben","123-4567","applicatn@email.com","Computer Science", "01/01/1999", "resume.png", 1)
@@ -65,18 +63,48 @@ def admin_page():
     # db.session.commit()
 
     applicant_data = Applicant.query.all()
-    
-    print("ATTEMPT TO QUERY APPLICANT TABLE OVER")
 
     # Render template or return JSON based on authorization
-    if current_user_id == 1:  # Assuming admin ID is 1 (change if needed)
+    if current_user_id == 1 or current_user_id == 2:  # Assuming admin ID is 1 (change if needed)
         return render_template('admin.html', user_data=user_data, applicant_data=applicant_data)
     else:
         return render_template ('401.html')
         
+@auth_views.route('/addapplicant/<applicant_id>', methods=['GET'])
+def add_applicant(applicant_id):
 
+    print("APPLICANT ID: " + applicant_id)
+    #Retrieve applicant data
 
+    applicant = Applicant.query.filter_by(id=applicant_id).first()
+
+    #Change applicants registered status to true
+
+    applicant.registered = True
+    db.session.add(applicant)
+    db.session.commit()
+
+    print("APPLICANT REGISTERED STATUS: " + str(applicant.registered))
+
+    return redirect(url_for('auth_views.admin_page'))
     
+@auth_views.route('/rejectapplicant/<applicant_id>', methods=['GET'])
+def reject_applicant(applicant_id):
+
+    print("APPLICANT ID: " + applicant_id)
+    #Retrieve applicant data
+
+    applicant = Applicant.query.filter_by(id=applicant_id).first()
+
+    #Change applicants registered status to true
+
+    applicant.rejected = True
+    db.session.add(applicant)
+    db.session.commit()
+
+    print("APPLICANT REJECTED STATUS: " + str(applicant.rejected))
+
+    return redirect(url_for('auth_views.admin_page'))
 
 @auth_views.route('/login', methods=['POST'])
 def login_action():
