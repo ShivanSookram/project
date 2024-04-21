@@ -7,12 +7,6 @@ from App.models.applicant import Applicant
 
 form_views = Blueprint('form_views', __name__, template_folder='../templates')
 
-
-def sanitize_filename(filename):
-  sanitized_filename = re.sub(r'[^\w\.-]', '_', filename, flags=re.UNICODE)
-  return sanitized_filename
-
-
 class ApplicationForm(Form):
   name = StringField('First Name', validators=[validators.DataRequired()])
   last_name = StringField('Last Name', validators=[validators.DataRequired()])
@@ -22,12 +16,19 @@ class ApplicationForm(Form):
   current_field_of_study = StringField('Current Field of Study', validators=[validators.DataRequired()])
   resume = FileField('Resume')
   submit = SubmitField('Submit Application')
-  internship_id = HiddenField('id')
+  internship_id = HiddenField('Internship ID')
+def sanitize_filename(filename):
+  sanitized_filename = re.sub(r'[^\w\.-]', '_', filename, flags=re.UNICODE)
+  return sanitized_filename
 
+# @form_views.route('/form/<id>', methods=['GET'])
+# def formrt(id):
+#   form=ApplicationForm(request.form)
+#   return render_template('form.html',id=id, form=form)
 
 @form_views.route('/submit', methods=['GET', 'POST'])
 def apply():
-  form = ApplicationForm()
+  form = ApplicationForm(request.form)
   if request.method == 'POST':
     if form.validate():
       name = form.name.data
@@ -40,7 +41,7 @@ def apply():
       internship_id = form.internship_id.data
       if resume:
         filename = sanitize_filename(resume.filename)
-        filepath = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
+        filepath = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)#The file path code is as follows filepath = os.path.join(<Upload-path>, filename)
         try:
           resume.save(filepath)
         except Exception as e:
@@ -69,14 +70,14 @@ def apply():
           int_id=internship_id
         )#this is to be added to the controller for this class, this is just here for testing atm
 
-        flash(f'Application submitted successfully! Name: {name}')
+      flash(f'Application submitted successfully! Name: {name}')
       return redirect(url_for('index_views.index_page'))
     else:
       flash('Application not filled out. Please correct the following fields:')
       for field, errors in form.errors.items():
         for error in errors:
           flash(f'{field}: {error}')
-        flash(f'field {form.internship_id.data} is filled')
+      flash(f'field {form.internship_id.data} is filled')
       return redirect(request.referrer)
 
   return render_template('form.html', form=form)
