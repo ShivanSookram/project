@@ -1,9 +1,10 @@
-from flask import Flask, render_template, redirect, url_for, request, current_app, Blueprint, flash
+import os
+import re
+
+from flask import render_template, redirect, url_for, request, current_app, Blueprint, flash
 from wtforms import Form, StringField, TelField, EmailField, DateField, FileField, SubmitField, validators, HiddenField
-import re, os
-from App.models import db
-from App.models import applicant
-from App.models.applicant import Applicant
+
+from App.controllers.form import create_applicant
 
 form_views = Blueprint('form_views', __name__, template_folder='../templates')
 
@@ -48,7 +49,7 @@ def apply():
           error = f"Error saving resume: {str(e)}"
           flash(error)
           return redirect(request.referrer)
-        new_applicant = Applicant(
+        new_applicant = create_applicant(
           first_name=name,
           last_name=last_name,
           email=email,
@@ -59,7 +60,7 @@ def apply():
           int_id=internship_id
         )#this is to be added to the controller for this class, this is just here for testing atm
       else:
-        new_applicant = Applicant(
+        new_applicant = create_applicant(
           first_name=name,
           last_name=last_name,
           email=email,
