@@ -69,7 +69,7 @@ def admin_page():
     print("ATTEMPT TO QUERY APPLICANT TABLE OVER")
 
     # Render template or return JSON based on authorization
-    if current_user_id == 2:  # Assuming admin ID is 2 (change if needed)
+    if current_user_id == 1:  # Assuming admin ID is 1 (change if needed)
         return render_template('admin.html', user_data=user_data, applicant_data=applicant_data)
     else:
         return render_template ('401.html')
