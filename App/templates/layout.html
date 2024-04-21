@@ -40,6 +40,15 @@
   'GRAD' 0,
   'opsz' 24
 }
+.sidenav {
+  position: sticky; /* Make the sidenav sticky */
+  top: 0; /* Position it at the top of the viewport */
+  left: 0; /* Position it at the left edge of the viewport */
+  width: 250px; /* Set a desired width for the sidenav */
+  height: 100vh; /* Make it full viewport height (optional) */
+  background-color: #eee; /* Set a background color (optional) */
+  /* Add other styles for padding, margin, etc. (optional) */
+}
       }
     </style>
 
@@ -96,18 +105,25 @@
             <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS3xCNzaqQ6-1bFQSo0QU7yv46l_6vyXc6uEJkqjUplqA&s">
           </div>
           
-          <!-- add back in cow pfp here -->
-          <a href="#!"><span class="black-text name">{{current_user.username}}</span></a>
+          <a href="#user"><img class="circle" src="https://i1.sndcdn.com/artworks-000189080723-ez2uad-t500x500.jpg"></a>
+          {% if is_authenticated %}
+            <a href=""><span class="black-text name">{{current_user.username}}</span></a>
+          {% else %}
+            <li><a href="/login"><i class="material-icons">fingerprint</i>Log in</a></li>
+            <li><a href="/signup"><i class="material-icons">group_add</i>Sign Up</a></li>
+          {% endif %}
+      
         </div></li>
-        <li><a href="/home"><i class="material-icons">book</i>List of Internships</a></li>
-        <li><a href="#!">Second Link</a></li>
         <li><div class="divider"></div></li>
-        <li><a class="subheader">Subheader</a></li>
-        <li><a class="waves-effect" href="#!">Third Link With Waves</a></li>
+        <li><a class="subheader">Internship Platform</a></li>
+        <li><a href="/home"><i class="material-icons">book</i>List of Internships</a></li>
+        <li><a href="/company"><i class="material-icons">create</i>Companies Apply Here</a></li>
       </ul>
+      
       <a href="#" data-target="slide-out" class="sidenav-trigger enlarged-trigger">
-        <i class="material-icons">menu</i>
+        <i class="medium material-icons">menu</i>
       </a>
+      
       
       
       <!-- here -->
