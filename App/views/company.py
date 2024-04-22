@@ -6,6 +6,8 @@ from App.models import db
 from App.models import internship
 from App.models.internship import Internship
 
+from App.controllers.company import create_internship
+
 company_views = Blueprint('company_views', __name__, template_folder='../templates')
 
 class CompanyForm(Form):
@@ -35,20 +37,11 @@ def companyApply():
       start_date = form.start_date.data
       duration = form.duration.data
 
-      new_internship = Internship(internship_title=internship_title,company_name=company_name,location=location,start_date=start_date,stipend=stipend,duration=duration)
-      try:
-        db.session.add(new_internship)
-        db.session.commit()
+      new_internship = create_internship(internship_title=internship_title,company_name=company_name,location=location,start_date=start_date,stipend=stipend,duration=duration)
+      if new_internship:
         flash(f'Internship Added! Name: {internship_title}')
-      except IntegrityError:
-        db.session.rollback()
+      else:
         flash(f'Error in adding - Internship Exists! Name: {internship_title}')
-        # return redirect(request.referrer)
-      # if new_applicant:
-      #   flash(f'Application submitted successfully! Name: {name}')
-      # else:
-      #   flash(f'Error in signing up - User already applied! Name: {name}')
-      # flash(f'Application submitted successfully! Name: {name}')
       return redirect(url_for('index_views.index_page'))
     else:
       flash('Application not filled out. Please correct the following fields:')
