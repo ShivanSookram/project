@@ -2,32 +2,19 @@ from App.models import Internship
 from App.database import db
 import csv 
 
-def initialize_internship():
-    try:
-        with open('/static/internship.csv', 'r') as file:
-            csv_reader = csv.reader(file)
-            next(csv_reader)  # Skip header row (optional)
 
-            internships = []
-            for row in csv_reader:
-                new_internship = Internship(row[0], row[1], row[2], row[3], row[4], row[5])
-                internships.append(new_internship)
+def initialize_internship():  
+  with open('App/static/internship.csv', 'r') as file:
+    csv_reader = csv.reader(file)
+    next(csv_reader) 
+    for row in csv_reader:
+      new_internship = Internship(row[0], row[1], row[2], row[3], row[4], row[5])
+      db.session.add(new_internship)
 
-            # Save the processed internships (assuming a method exists)
-            save_internships(internships)  # You might need to add this function
-            
-            # No longer tries to use `generate_html` directly
-
-    except FileNotFoundError:
-        print("Error: Internship CSV file not found!")
-
-# Function to save internships to database (example)
-def save_internships(internships):
-    for internship in internships:
-        db.session.add(internship)
+  try:
     db.session.commit()
-
-
+  except Exception as e:
+    print("An error occurred during commit:", e)
 
 if __name__ == "__main__":
   initialize_database()

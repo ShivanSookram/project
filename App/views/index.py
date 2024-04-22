@@ -3,6 +3,7 @@ from App.models import db
 from App.models import Internship
 from App.controllers import create_user
 from App.controllers import create_project
+from App.controllers import initialize_internship()
 
 index_views = Blueprint('index_views', __name__, template_folder='../templates')
 
@@ -24,6 +25,7 @@ def init():
   db.drop_all()
   db.create_all()
   create_user('bob', 'bobpass')
+  initialize_internship()
   return jsonify(message='db initialized!')
 
 @index_views.route('/company', methods=['GET'])
