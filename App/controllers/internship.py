@@ -10,60 +10,56 @@ import csv
 
 # def initialize_internship():  
 #   with open('App/static/internship.csv', 'r') as file:
-#     csv_reader = csv.reader(file)
+#     csv_reader = csv.DictReader(file)
 #     next(csv_reader) 
 #     for row in csv_reader:
 #       new_internship = Internship(row[0], row[1], row[2], row[3], row[4], row[5])
 #       db.session.add(new_internship)
 
-#   try:
-#     db.session.commit()
-#   except Exception as e:
-#     print("An error occurred during commit:", e)
-
+import csv
 import psycopg2
 
 
 def initialize_internship():
   try:
     # Connect to the database using environment variables
-    DATABASE_URL = os.environ['postgres://internships_user:JC9Rqcm1wRoDfOzOTvAirGf69j07tLUS@dpg-coir5t0l5elc73dccv60-a/internships']
-    conn = psycopg2.connect(DATABASE_URL)
-    cur = conn.cursor()
+    DATABASE_URL = os.environ['DATABASE_URL']
+    # conn is referenced here but not assigned yet
 
-    # Open the CSV file
-    with open('internship.csv', 'r') as file:
-      csv_reader = csv.reader(file)
+    cur = psycopg2.connect(DATABASE_URL)
+    cur.cursor()  # Using cur before conn is defined
+
+    # Assuming your CSV data is accessible within the application (adjust the path)
+    with open('internship.csv', 'r') as file:  # Replace with the actual path to your CSV
+      csv_reader = csv.DictReader(file)
       next(csv_reader)  # Skip the header row
 
-      # Read data into a list of lists
-      data = list(csv_reader)
+      # Prepare SQL statement (assuming column names match your CSV)
+      sql = """
+          INSERT INTO internships (title, company_name, location, start_date, duration, stipend)
+          VALUES (%s, %s, %s, %s, %s, %s)
+      """
 
-    # Prepare SQL statement (assuming column names match your CSV)
-    sql = """
-        INSERT INTO internships (title, company_name, location, start_date, duration, stipend)
-        VALUES (%s, %s, %s, %s, %s, %s)
-    """
+      # Insert data using a loop
+      for row in csv_reader:
+        cur.execute(sql, tuple(row.values()))  # Use unpacking for values
 
-    # Insert data using a loop
-    for row in data:
-      # Extract and format data (adjust based on your CSV format)
-      title, company, location, start_date, duration, stipend = row
-      # Assuming stipend is a string like "$30,000/month", extract the numerical value
-      stipend_amount = int(stipend.split()[1].replace(",", ""))
-
-      # Execute the insert statement with the extracted data
-      cur.execute(sql, (title, company, location, start_date, duration, stipend_amount))
-
-    conn.commit()
-    print("Internships successfully added!")
+      conn.commit()  # conn is used here before it's defined
+      print("Internships successfully added!")
   except Exception as e:
     print("An error occurred:", e)
-    conn.rollback()  # Rollback changes in case of errors
+  finally:
+    conn.close()  # conn is used here before it's defined
 
 if __name__ == "__main__":
   initialize_internship()
 
+
+
+  try:
+    db.session.commit()
+  except Exception as e:
+    print("An error occurred during commit:", e)
 
 if __name__ == "__main__":
   initialize_database()
