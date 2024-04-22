@@ -1,20 +1,27 @@
 from App.models import Internship
 from App.database import db
 import csv 
+from App.views import index_page
 
 
-def initialize_internship():  
-  with open('/static/internship.csv', 'r') as file:
-    csv_reader = csv.reader(file)
-    next(csv_reader) 
-    for row in csv_reader:
-      new_internship = Internship(row[0], row[1], row[2], row[3], row[4], row[5])
-      db.session.add(new_internship)
+def initialize_internship():
+    try:
+        with open('/static/internship.csv', 'r') as file:
+            csv_reader = csv.reader(file)
+            next(csv_reader)  # Skip header row (optional)
 
-  try:
-    db.session.commit()
-  except Exception as e:
-    print("An error occurred during commit:", e)
+            internships = []
+            for row in csv_reader:
+                new_internship = Internship(row[0], row[1], row[2], row[3], row[4], row[5])
+                internships.append(new_internship)
+
+            # Assuming `index_page` is already defined and contains the HTML content
+            html_content = index_page
+            return html_content
+
+    except FileNotFoundError:
+        print("Error: Internship CSV file not found!")
+
 
 if __name__ == "__main__":
   initialize_database()
