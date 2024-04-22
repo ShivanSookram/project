@@ -1,7 +1,6 @@
 from App.models import Internship
 from App.database import db
 import csv 
-from App.views import index_page as generate_html  # Forward reference
 
 def initialize_internship():
     try:
