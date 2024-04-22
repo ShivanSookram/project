@@ -4,17 +4,12 @@ import csv
 
 
 def initialize_internship():  
-  with open('./App/static/internship.csv', 'r',encoding='utf8') as file:
+  with open('App/static/internship.csv', 'r') as file:
     csv_reader = csv.reader(file)
     next(csv_reader) 
     for row in csv_reader:
       new_internship = Internship(row[0], row[1], row[2], row[3], row[4], row[5])
       db.session.add(new_internship)
-
-
-if __name__ == "__main__":
-  initialize_internship()
-
 
   try:
     db.session.commit()
