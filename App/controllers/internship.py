@@ -1,11 +1,15 @@
 from App.models import Internship
 from App.database import db
 import csv 
+# import os
 
+
+# DATABASE_URL = os.environ['postgres://internships_user:JC9Rqcm1wRoDfOzOTvAirGf69j07tLUS@dpg-coir5t0l5elc73dccv60-a/internships']
+# conn = psycopg2.connect(DATABASE_UR)
 
 
 def initialize_internship():  
-  with open('internship.csv', 'r') as file:
+  with open('.App/static/internship.csv', 'r') as file:
     csv_reader = csv.reader(file)
     next(csv_reader) 
     for row in csv_reader:
